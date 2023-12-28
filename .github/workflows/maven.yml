@@ -32,11 +32,11 @@ jobs:
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image
       env:
-        VERSION: 1.1.1
+        VERSION: 3.2.2
       with:
         image: dqmdz/unificado.api
         tags: ${VERSION}, latest, "${GITHUB_REF#refs/heads/}.$(git rev-parse --short ${GITHUB_SHA})"
         registry: docker.io
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.github
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}

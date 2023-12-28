@@ -1,6 +1,6 @@
 app:
   server: 10.147.20.25:3306
-  database: mtclogistica
+  database: uniftsa
   user: root
   password: root
   add-properties: true
@@ -15,8 +15,6 @@ server:
   port: ${app.port}
     
 spring:
-  main:
-    allow-circular-references: true
   datasource:
     url: jdbc:mysql://${app.server}/${app.database}?useSSL=false&serverTimezone=UTC
     username: ${app.user}
@@ -35,7 +33,7 @@ spring:
 
 logging:
   level:
-    eterea.api.rest: DEBUG
+    unificado.api.rest: DEBUG
     web: ${app.logging}
     org:
       hibernate:
