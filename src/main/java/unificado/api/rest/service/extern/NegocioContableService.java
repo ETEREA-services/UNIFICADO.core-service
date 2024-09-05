@@ -18,7 +18,7 @@ public class NegocioContableService {
     }
 
     public List<BigDecimal> totalesEntreFechasByNegocio(String backendServer, String backendPort, Long numeroCuenta, OffsetDateTime desde, OffsetDateTime hasta, Boolean incluyeApertura, Boolean incluyeInflacion) {
-        String url = this.getUrl(backendServer, backendPort) + "/balance";
+        String url = this.getUrl(backendServer, backendPort) + "/api/core/balance";
         WebClient webClient = WebClient.builder().baseUrl(url).build();
         String request = "/totalesEntreFechas/" + numeroCuenta + "/" + desde + "/" + hasta + "/" + incluyeApertura + "/" + incluyeInflacion;
         log.debug("url={}", url);

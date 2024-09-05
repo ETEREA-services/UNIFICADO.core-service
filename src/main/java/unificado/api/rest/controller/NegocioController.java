@@ -15,7 +15,7 @@ import unificado.api.rest.service.NegocioService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/negocio")
+@RequestMapping("/api/unificado/negocio")
 public class NegocioController {
 
     private final NegocioService service;

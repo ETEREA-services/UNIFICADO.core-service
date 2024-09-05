@@ -36,7 +36,6 @@ data class Cuenta(
     var grado4: BigDecimal = BigDecimal.ZERO,
 
     @Column(name = "clave")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var cuentaId: Long? = null
 
 ) : Auditable()
