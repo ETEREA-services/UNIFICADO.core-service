@@ -15,12 +15,11 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/balance")
+@RequestMapping("/api/unificado/balance")
 public class BalanceController {
 
     private final BalanceService service;
 
-    @Autowired
     public BalanceController(BalanceService service) {
         this.service = service;
     }

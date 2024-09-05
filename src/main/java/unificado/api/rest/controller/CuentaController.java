@@ -12,12 +12,11 @@ import unificado.api.rest.service.CuentaService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cuenta")
+@RequestMapping("/api/unificado/cuenta")
 public class CuentaController {
 
     private final CuentaService service;
 
-    @Autowired
     public CuentaController(CuentaService service) {
         this.service = service;
     }

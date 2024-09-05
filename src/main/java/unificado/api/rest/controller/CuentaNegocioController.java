@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cuentaNegocio")
+@RequestMapping("/api/unificado/cuentaNegocio")
 public class CuentaNegocioController {
 
     private final CuentaNegocioService service;
