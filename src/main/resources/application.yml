@@ -1,11 +1,11 @@
 app:
+  port: ${APP_PORT:8090}
+  logging: debug
   server: 10.147.20.20:3306
   database: unif
   user: root
   password: root
-  logging: debug
-  port: 8090
-  
+
 server:
   port: ${app.port}
     
