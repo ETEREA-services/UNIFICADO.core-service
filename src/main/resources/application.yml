@@ -22,7 +22,7 @@ spring:
 
 logging:
   level:
-    unificado.api.rest: DEBUG
+    unificado.core.service: ${app.logging}
     web: ${app.logging}
     org:
       hibernate:
