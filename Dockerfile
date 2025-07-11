@@ -1,10 +1,11 @@
-FROM maven:3-eclipse-temurin-21-alpine as build
-ENV HOME=/usr/app
-RUN mkdir -p $HOME
-WORKDIR $HOME
-ADD . $HOME
-RUN --mount=type=cache,target=/root/.m2 mvn -f $HOME/pom.xml clean package
+FROM eclipse-temurin:24-jre-alpine
 
-FROM eclipse-temurin:21-jre-alpine
-COPY --from=build /usr/app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Instalar curl en la imagen
+RUN apk update && apk add curl
+
+# Copiar el archivo JAR
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+
+# Ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "/app.jar"]
