@@ -267,6 +267,9 @@ jobs:
 
       - name: Prepare artifact for deployment
         run: |
+          # Copiar los diagramas Mermaid al directorio docs para que estén disponibles en GitHub Pages
+          mkdir -p docs/diagrams/mermaid
+          cp -r diagrams/mermaid/*.mmd docs/diagrams/mermaid/ 2>/dev/null || true
           mkdir -p _site
           cp -r docs/* _site/
       - name: Upload artifacts
