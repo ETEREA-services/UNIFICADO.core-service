@@ -265,11 +265,20 @@ jobs:
             git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git master
           fi
 
+      - name: Debug - List Mermaid files
+        run: |
+          echo "Archivos Mermaid en docs/diagrams/mermaid/:"
+          ls -l docs/diagrams/mermaid/ || echo "No existe docs/diagrams/mermaid/"
+
       - name: Prepare artifact for deployment
         run: |
-          # Copiar los diagramas Mermaid al directorio docs para que estén disponibles en GitHub Pages
+          # Garantizar que los archivos Mermaid estén en docs/diagrams/mermaid/
           mkdir -p docs/diagrams/mermaid
-          cp -r diagrams/mermaid/*.mmd docs/diagrams/mermaid/ 2>/dev/null || true
+          if [ -d diagrams/mermaid ]; then
+            cp -v diagrams/mermaid/*.mmd docs/diagrams/mermaid/ 2>/dev/null || true
+          fi
+          echo "Archivos Mermaid finales en docs/diagrams/mermaid/:"
+          ls -l docs/diagrams/mermaid/ || echo "No existe docs/diagrams/mermaid/"
           mkdir -p _site
           cp -r docs/* _site/
       - name: Upload artifacts
