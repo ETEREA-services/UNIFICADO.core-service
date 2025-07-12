@@ -7,42 +7,42 @@ sequenceDiagram
     participant CuentaMovimientoUnificadoService
     participant DB
 
-    User->>+BalanceController: GET /processCuenta/{...}
-    BalanceController->>+BalanceService: processCuenta(params)
+    User->>+BalanceController: "GET /processCuenta/{...}"
+    BalanceController->>+BalanceService: "processCuenta(params)"
     
-    BalanceService->>+CuentaNegocioService: findAllByNumeroMaestro(numeroMaestro)
-    CuentaNegocioService->>+DB: SELECT * FROM cuentanegocio WHERE ...
-    DB-->>-CuentaNegocioService: List_CuentaNegocio
-    CuentaNegocioService-->>-BalanceService: List_CuentaNegocio
+    BalanceService->>+CuentaNegocioService: "findAllByNumeroMaestro(numeroMaestro)"
+    CuentaNegocioService->>+DB: "SELECT * FROM cuentanegocio WHERE ..."
+    DB-->>-CuentaNegocioService: "List<CuentaNegocio>"
+    CuentaNegocioService-->>-BalanceService: "List<CuentaNegocio>"
 
-    loop Para_cada_CuentaNegocio_en_paralelo
-        BalanceService->>+NegocioContableService: totalesEntreFechasByNegocio(...)
-        NegocioContableService-->>-BalanceService: Mono_Tuple2_BigDecimal_BigDecimal_totales
+    loop "Para cada CuentaNegocio (en paralelo)"
+        BalanceService->>+NegocioContableService: "totalesEntreFechasByNegocio(...)"
+        NegocioContableService-->>-BalanceService: "Mono<Tuple2<BigDecimal, BigDecimal>> (totales)"
         
-        alt TotalDebe_mayor_0
-            BalanceService->>+CuentaMovimientoUnificadoService: findByUnique(...)
-            CuentaMovimientoUnificadoService->>+DB: SELECT * FROM movconunif WHERE ...
-            DB-->>-CuentaMovimientoUnificadoService: puede_no_encontrar
-            CuentaMovimientoUnificadoService-->>-BalanceService: ID_o_null
+        alt "TotalDebe > 0"
+            BalanceService->>+CuentaMovimientoUnificadoService: "findByUnique(...)"
+            CuentaMovimientoUnificadoService->>+DB: "SELECT * FROM movconunif WHERE ..."
+            DB-->>-CuentaMovimientoUnificadoService: "(puede no encontrar)"
+            CuentaMovimientoUnificadoService-->>-BalanceService: "(ID o null)"
             
-            BalanceService->>+CuentaMovimientoUnificadoService: add_movimientoDebe
-            CuentaMovimientoUnificadoService->>+DB: INSERT_UPDATE_movconunif
-            DB-->>-CuentaMovimientoUnificadoService: OK
-            CuentaMovimientoUnificadoService-->>-BalanceService: 
+            BalanceService->>+CuentaMovimientoUnificadoService: "add(movimientoDebe)"
+            CuentaMovimientoUnificadoService->>+DB: "INSERT/UPDATE movconunif"
+            DB-->>-CuentaMovimientoUnificadoService: "OK"
+            CuentaMovimientoUnificadoService-->>-BalanceService: ""
         end
 
-        alt TotalHaber_mayor_0
-            BalanceService->>+CuentaMovimientoUnificadoService: findByUnique(...)
-            CuentaMovimientoUnificadoService->>+DB: SELECT * FROM movconunif WHERE ...
-            DB-->>-CuentaMovimientoUnificadoService: puede_no_encontrar
-            CuentaMovimientoUnificadoService-->>-BalanceService: ID_o_null
+        alt "TotalHaber > 0"
+            BalanceService->>+CuentaMovimientoUnificadoService: "findByUnique(...)"
+            CuentaMovimientoUnificadoService->>+DB: "SELECT * FROM movconunif WHERE ..."
+            DB-->>-CuentaMovimientoUnificadoService: "(puede no encontrar)"
+            CuentaMovimientoUnificadoService-->>-BalanceService: "(ID o null)"
 
-            BalanceService->>+CuentaMovimientoUnificadoService: add_movimientoHaber
-            CuentaMovimientoUnificadoService->>+DB: INSERT_UPDATE_movconunif
-            DB-->>-CuentaMovimientoUnificadoService: OK
-            CuentaMovimientoUnificadoService-->>-BalanceService: 
+            BalanceService->>+CuentaMovimientoUnificadoService: "add(movimientoHaber)"
+            CuentaMovimientoUnificadoService->>+DB: "INSERT/UPDATE movconunif"
+            DB-->>-CuentaMovimientoUnificadoService: "OK"
+            CuentaMovimientoUnificadoService-->>-BalanceService: ""
         end
     end
 
-    BalanceService-->>-BalanceController: Mono_List_String_errores
-    BalanceController-->>-User: 200_OK_con_lista_de_errores
+    BalanceService-->>-BalanceController: "Mono<List<String>> (errores)"
+    BalanceController-->>-User: "200 OK con lista de errores"
