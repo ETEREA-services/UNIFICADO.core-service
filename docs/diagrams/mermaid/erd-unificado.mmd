@@ -23,6 +23,6 @@ erDiagram
         BigDecimal importe
     }
 
-    Negocio ||--|{ CuentaNegocio : define
-    Cuenta ||--|{ CuentaNegocio : es_parte_de
-    CuentaNegocio ||--|{ CuentaMovimientoUnificado : tiene_movimientos
+    Negocio ||--|{ CuentaNegocio : "define"
+    Cuenta ||--|{ CuentaNegocio : "es parte de"
+    CuentaMovimientoUnificado }|--|| CuentaNegocio : "tiene_movimientos"
