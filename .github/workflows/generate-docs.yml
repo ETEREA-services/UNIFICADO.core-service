@@ -134,22 +134,37 @@ jobs:
                       { id: 'balance-sequence-diagram', path: 'diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' }
                   ];
 
+                  // Insert titles and mermaid divs first
                   diagramConfigs.forEach(config => {
                       const container = document.getElementById(config.id);
                       if (container) {
-                          container.innerHTML = `<h2>${config.title}</h2><div class="mermaid"></div>`;
-                          fetch(config.path)
-                              .then(response => response.text())
-                              .then(text => {
-                                  container.querySelector('.mermaid').textContent = text;
-                              })
-                              .catch(error => {
-                                  container.querySelector('.mermaid').textContent = `Error al cargar: ${error}`;
-                              });
+                          container.innerHTML = `<h2>${config.title}</h2><div class="mermaid" id="mermaid-${config.id}">Cargando diagrama...</div>`;
                       }
                   });
-                  
-                  await mermaid.run();
+
+                  try {
+                      const responses = await Promise.all(diagramConfigs.map(config => fetch(config.path)));
+                      const texts = await Promise.all(responses.map(res => res.text()));
+
+                      texts.forEach((text, index) => {
+                          const config = diagramConfigs[index];
+                          const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
+                          if (mermaidContainer) {
+                              mermaidContainer.textContent = text;
+                          }
+                      });
+
+                      await mermaid.run();
+
+                  } catch (error) {
+                      console.error('Error loading or rendering diagrams:', error);
+                      diagramConfigs.forEach(config => {
+                          const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
+                          if (mermaidContainer) {
+                              mermaidContainer.textContent = `Error al cargar el diagrama desde ${config.path}.`;
+                          }
+                      });
+                  }
 
                   // --- Milestones ---
                   let milestonesHTML = '<h2>🎯 Milestones</h2>';
