@@ -139,9 +139,9 @@ jobs:
 
                   // --- Diagrams ---
                   const diagramConfigs = [
-                      { id: 'component-diagram', path: 'docs/diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
-                      { id: 'erd-unificado', path: 'docs/diagrams/mermaid/erd-unificado.mmd', title: '🌐 Diagrama de Entidad-Relación' },
-                      { id: 'balance-sequence-diagram', path: 'docs/diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' }
+                      { id: 'component-diagram', path: '/unificado.core-service/diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
+                      { id: 'erd-unificado', path: '/unificado.core-service/diagrams/mermaid/erd-unificado.mmd', title: '🌐 Diagrama de Entidad-Relación' },
+                      { id: 'balance-sequence-diagram', path: '/unificado.core-service/diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' }
                   ];
 
                   // Insert titles and mermaid divs first
@@ -153,7 +153,12 @@ jobs:
                   });
 
                   // Inicializar Mermaid con la configuración
-                  mermaid.initialize(window.mermaidConfig);
+                  mermaid.initialize({
+                      ...window.mermaidConfig,
+                      securityLevel: 'loose',
+                      startOnLoad: false,
+                      theme: 'default'
+                  });
 
                   // Función para cargar y renderizar diagramas
                   async function loadAndRenderDiagrams() {
@@ -170,8 +175,17 @@ jobs:
                                       mermaidContainer.textContent = text;
                                       
                                       // Renderizar este diagrama específicamente
-                                      const { svg } = await mermaid.render(`mermaid-${config.id}`, text);
-                                      mermaidContainer.innerHTML = svg;
+                                      try {
+                                          const { svg } = await mermaid.render(`mermaid-${config.id}`, text);
+                                          mermaidContainer.innerHTML = svg;
+                                      } catch (error) {
+                                          console.error(`Error rendering diagram ${config.id}:`, error);
+                                          mermaidContainer.innerHTML = `
+                                              <div style="color: #dc3545; padding: 10px; background: #f8d7da; border-radius: 4px;">
+                                                  <strong>Error al renderizar el diagrama:</strong> ${error.message}
+                                              </div>
+                                          `;
+                                      }
                                   }
                                   return { success: true };
                               } catch (error) {
