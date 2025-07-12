@@ -93,7 +93,6 @@ jobs:
               <div id="milestones" class="section"></div>
               <div id="pull-requests" class="section"></div>
               
-              <script>mermaid.initialize({startOnLoad:true});</script>
               <script>
                   document.getElementById('update-date').textContent = new Date().toLocaleString('es-AR');
               </script>
@@ -111,6 +110,7 @@ jobs:
           <script src="data.js"></script>
           <script>
               document.addEventListener('DOMContentLoaded', async () => {
+                  mermaid.initialize({});
                   // --- Dependency Tree ---
                   try {
                       const depResponse = await fetch('dependency-tree.txt');
