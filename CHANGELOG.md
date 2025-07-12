@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2025-07-12
+
+### Fixed
+- Corrección del pipeline por error de GitHub Actions
+
 ## [0.3.0] - 2025-07-12
 
 ### Changed
