@@ -74,16 +74,9 @@ jobs:
               </div>
               <div id="stats" class="stats"></div>
 
-              <div class="section">
-                  <h2>Arquitectura y Modelo de Datos</h2>
-                  <div id="component-diagram"></div>
-                  <div id="erd-unificado" style="margin-top: 2rem;"></div>
-              </div>
-
-              <div class="section">
-                  <h2>Flujos de Negocio</h2>
-                  <div id="balance-sequence-diagram"></div>
-              </div>
+              <div id="component-diagram" class="section"></div>
+              <div id="erd-unificado" class="section"></div>
+              <div id="balance-sequence-diagram" class="section"></div>
               
               <div id="dependencies" class="section">
                   <h2>🌳 Grafo de Dependencias</h2>
