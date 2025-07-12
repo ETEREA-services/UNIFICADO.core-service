@@ -1,0 +1,28 @@
+erDiagram
+    Negocio {
+        int negocioId PK
+        string nombre
+    }
+
+    Cuenta {
+        BigDecimal numeroMaestro PK
+        string nombre
+    }
+
+    CuentaNegocio {
+        long cuentaNegocioId PK
+        int negocioId FK
+        long numeroCuenta
+        BigDecimal numeroMaestro FK
+    }
+
+    CuentaMovimientoUnificado {
+        long id PK
+        int negocioId FK
+        long numeroCuenta
+        BigDecimal importe
+    }
+
+    Negocio ||--|{ CuentaNegocio : "define"
+    Cuenta ||--|{ CuentaNegocio : "es parte de"
+    CuentaNegocio ||--|{ CuentaMovimientoUnificado : "tiene movimientos"

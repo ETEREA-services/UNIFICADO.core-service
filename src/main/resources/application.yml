@@ -1,8 +1,8 @@
 app:
   port: ${APP_PORT:8090}
   logging: debug
-  server: 10.147.20.20:3306
-  database: unif
+  server: 192.168.201.132:3309
+  database: uniftsa
   user: root
   password: root
 
@@ -11,12 +11,11 @@ server:
     
 spring:
   datasource:
-    url: jdbc:mysql://${app.server}/${app.database}?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://${app.server}/${app.database}?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
     username: ${app.user}
     password: ${app.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none
 

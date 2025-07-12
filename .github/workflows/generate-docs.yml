@@ -74,33 +74,14 @@ jobs:
               <div id="stats" class="stats"></div>
 
               <div class="section">
-                  <h2>Arquitectura General</h2>
+                  <h2>Arquitectura y Modelo de Datos</h2>
                   <div id="component-diagram"></div>
-                  <div id="erd-general" style="margin-top: 2rem;"></div>
+                  <div id="erd-unificado" style="margin-top: 2rem;"></div>
               </div>
 
               <div class="section">
-                  <h2>Dominio: Facturación</h2>
-                  <div id="make-factura-class-diagram"></div>
-                  <div id="make-factura-sequence-diagram" style="margin-top: 2rem;"></div>
-              </div>
-
-              <div class="section">
-                  <h2>Dominio: Gestión de Clientes</h2>
-                  <div id="cliente-class-diagram"></div>
-                  <div id="cliente-sequence-diagram" style="margin-top: 2rem;"></div>
-              </div>
-
-              <div class="section">
-                  <h2>Dominio: Gestión de Artículos y Stock</h2>
-                  <div id="articulo-class-diagram"></div>
-                  <div id="inventario-sequence-diagram" style="margin-top: 2rem;"></div>
-              </div>
-
-              <div class="section">
-                  <h2>Dominio: Gestión de Reservas de Hotel</h2>
-                  <div id="reserva-class-diagram"></div>
-                  <div id="reserva-sequence-diagram" style="margin-top: 2rem;"></div>
+                  <h2>Flujos de Negocio</h2>
+                  <div id="balance-sequence-diagram"></div>
               </div>
               
               <div id="dependencies" class="section">
@@ -154,21 +135,9 @@ jobs:
 
                   // --- Diagrams ---
                   const diagramConfigs = [
-                      // General Architecture
                       { id: 'component-diagram', path: 'diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
-                      { id: 'erd-general', path: 'diagrams/mermaid/erd-general.mmd', title: '🌐 Diagrama de Entidad-Relación General' },
-                      // Billing Domain
-                      { id: 'make-factura-class-diagram', path: 'diagrams/mermaid/make-factura-class-diagram.mmd', title: 'UML Diagrama de Clases de Facturación' },
-                      { id: 'make-factura-sequence-diagram', path: 'diagrams/mermaid/make-factura-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Factura' },
-                      // Customer Domain
-                      { id: 'cliente-class-diagram', path: 'diagrams/mermaid/cliente-class-diagram.mmd', title: 'UML Diagrama de Clases de Clientes' },
-                      { id: 'cliente-sequence-diagram', path: 'diagrams/mermaid/cliente-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Cliente' },
-                      // Stock Domain
-                      { id: 'articulo-class-diagram', path: 'diagrams/mermaid/articulo-class-diagram.mmd', title: 'UML Diagrama de Clases de Artículos' },
-                      { id: 'inventario-sequence-diagram', path: 'diagrams/mermaid/inventario-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Registro de Inventario' },
-                      // Hotel Booking Domain
-                      { id: 'reserva-class-diagram', path: 'diagrams/mermaid/reserva-class-diagram.mmd', title: 'UML Diagrama de Clases de Reservas' },
-                      { id: 'reserva-sequence-diagram', path: 'diagrams/mermaid/reserva-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Creación de Reserva' }
+                      { id: 'erd-unificado', path: 'diagrams/mermaid/erd-unificado.mmd', title: '🌐 Diagrama de Entidad-Relación' },
+                      { id: 'balance-sequence-diagram', path: 'diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' }
                   ];
 
                   // Insert titles and mermaid divs first
