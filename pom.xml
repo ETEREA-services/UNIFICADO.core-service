@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.termascacheuta</groupId>
 	<artifactId>core.unificado</artifactId>
-	<version>0.3.0</version>
+	<version>0.3.1</version>
 	<name>unificado.core-service</name>
 	<description>Unificado</description>
 	<properties>
@@ -150,6 +150,7 @@
 						<configuration>
 							<imageName>unificado.core-service</imageName>
 							<buildArgs>
+								<buildArg>--enable-native-access=ALL-UNNAMED</buildArg>
 								<buildArg>-H:DefaultCharset=UTF-8</buildArg>
 								<buildArg>-H:+AddAllCharsets</buildArg>
 							</buildArgs>
