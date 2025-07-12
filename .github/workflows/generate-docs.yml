@@ -86,19 +86,9 @@ jobs:
               <div id="milestones" class="section"></div>
               <div id="pull-requests" class="section"></div>
               
+              <script>mermaid.initialize({startOnLoad:true});</script>
               <script>
                   document.getElementById('update-date').textContent = new Date().toLocaleString('es-AR');
-                  
-                  // Configuración global de Mermaid
-                  window.mermaidConfig = {
-                      startOnLoad: false,  // Desactivamos el inicio automático
-                      theme: 'default',
-                      securityLevel: 'loose',
-                      flowchart: {
-                          useMaxWidth: true,
-                          htmlLabels: true
-                      }
-                  };
               </script>
           </body>
           </html>
@@ -139,77 +129,27 @@ jobs:
 
                   // --- Diagrams ---
                   const diagramConfigs = [
-                      { id: 'component-diagram', path: '/unificado.core-service/diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
-                      { id: 'erd-unificado', path: '/unificado.core-service/diagrams/mermaid/erd-unificado.mmd', title: '🌐 Diagrama de Entidad-Relación' },
-                      { id: 'balance-sequence-diagram', path: '/unificado.core-service/diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' }
+                      { id: 'component-diagram', path: 'diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
+                      { id: 'erd-unificado', path: 'diagrams/mermaid/erd-unificado.mmd', title: '🌐 Diagrama de Entidad-Relación' },
+                      { id: 'balance-sequence-diagram', path: 'diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' }
                   ];
 
-                  // Insert titles and mermaid divs first
                   diagramConfigs.forEach(config => {
                       const container = document.getElementById(config.id);
                       if (container) {
-                          container.innerHTML = `<h2>${config.title}</h2><div class="mermaid" id="mermaid-${config.id}">Cargando diagrama...</div>`;
+                          container.innerHTML = `<h2>${config.title}</h2><div class="mermaid"></div>`;
+                          fetch(config.path)
+                              .then(response => response.text())
+                              .then(text => {
+                                  container.querySelector('.mermaid').textContent = text;
+                              })
+                              .catch(error => {
+                                  container.querySelector('.mermaid').textContent = `Error al cargar: ${error}`;
+                              });
                       }
                   });
-
-                  // Inicializar Mermaid con la configuración
-                  mermaid.initialize({
-                      ...window.mermaidConfig,
-                      securityLevel: 'loose',
-                      startOnLoad: false,
-                      theme: 'default'
-                  });
-
-                  // Función para cargar y renderizar diagramas
-                  async function loadAndRenderDiagrams() {
-                      try {
-                          // Cargar todos los diagramas en paralelo
-                          const diagramPromises = diagramConfigs.map(async (config) => {
-                              try {
-                                  const response = await fetch(config.path);
-                                  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                                  const text = await response.text();
-                                  
-                                  const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
-                                  if (mermaidContainer) {
-                                      mermaidContainer.textContent = text;
-                                      
-                                      // Renderizar este diagrama específicamente
-                                      try {
-                                          const { svg } = await mermaid.render(`mermaid-${config.id}`, text);
-                                          mermaidContainer.innerHTML = svg;
-                                      } catch (error) {
-                                          console.error(`Error rendering diagram ${config.id}:`, error);
-                                          mermaidContainer.innerHTML = `
-                                              <div style="color: #dc3545; padding: 10px; background: #f8d7da; border-radius: 4px;">
-                                                  <strong>Error al renderizar el diagrama:</strong> ${error.message}
-                                              </div>
-                                          `;
-                                      }
-                                  }
-                                  return { success: true };
-                              } catch (error) {
-                                  console.error(`Error loading diagram ${config.path}:`, error);
-                                  const mermaidContainer = document.getElementById(`mermaid-${config.id}`);
-                                  if (mermaidContainer) {
-                                      mermaidContainer.innerHTML = `
-                                          <div style="color: #dc3545; padding: 10px; background: #f8d7da; border-radius: 4px;">
-                                              <strong>Error al cargar el diagrama:</strong> ${error.message}
-                                          </div>
-                                      `;
-                                  }
-                                  return { success: false, error };
-                              }
-                          });
-
-                          await Promise.all(diagramPromises);
-                      } catch (error) {
-                          console.error('Unexpected error in diagram rendering:', error);
-                      }
-                  }
-
-                  // Iniciar la carga de diagramas
-                  loadAndRenderDiagrams();
+                  
+                  await mermaid.run();
 
                   // --- Milestones ---
                   let milestonesHTML = '<h2>🎯 Milestones</h2>';
