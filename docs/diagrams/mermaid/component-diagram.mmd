@@ -1,0 +1,46 @@
+graph TD
+    subgraph "Cliente Externo"
+        User[👤 Usuario / API Client]
+    end
+
+    subgraph "Unificado Core Service"
+        subgraph "API Layer"
+            BalanceController[BalanceController]
+        end
+
+        subgraph "Business Logic Layer"
+            BalanceService[BalanceService]
+            CuentaNegocioService[CuentaNegocioService]
+            CuentaMovimientoUnificadoService[CuentaMovimientoUnificadoService]
+            NegocioContableService[NegocioContableService (Externo)]
+        end
+
+        subgraph "Data Access Layer"
+            CuentaNegocioRepo[CuentaNegocioRepository]
+            MovimientoRepo[CuentaMovimientoUnificadoRepository]
+        end
+    end
+
+    subgraph "Servicios Externos"
+        ExtService[🏢 Negocio Contable Service]
+    end
+
+    subgraph "Base de Datos"
+        DB[(🐘 PostgreSQL)]
+    end
+
+    User --> BalanceController
+
+    BalanceController --> BalanceService
+
+    BalanceService --> CuentaNegocioService
+    BalanceService --> NegocioContableService
+    BalanceService --> CuentaMovimientoUnificadoService
+
+    NegocioContableService --> ExtService
+
+    CuentaNegocioService --> CuentaNegocioRepo
+    CuentaMovimientoUnificadoService --> MovimientoRepo
+
+    CuentaNegocioRepo --> DB
+    MovimientoRepo --> DB
