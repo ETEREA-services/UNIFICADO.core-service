@@ -29,10 +29,10 @@ WORKDIR /app
 
 # Copiamos el JAR generado desde la etapa de compilación
 # El pom.xml define <finalName>eterea.import-service</finalName>
-COPY --from=build /app/target/eterea.import-service.jar ./eterea.import-service.jar
+COPY --from=build /app/target/unificado.core-service.jar ./unificado.core-service.jar
 
 # Cambiamos al usuario no privilegiado
 USER appuser
 
 # Comando para ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "eterea.import-service.jar"]
+ENTRYPOINT ["java", "-jar", "unificado.core-service.jar"]
