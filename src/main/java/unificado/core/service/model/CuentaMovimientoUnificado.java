@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 @Entity
 @Table(
     name = "movconunif",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"negocioId", "numeroCuenta", "desde", "hasta", "debita"})
+    uniqueConstraints = @UniqueConstraint(columnNames = {"mco_neg_id", "mco_cuenta", "mco_desde", "mco_hasta", "mco_debita"})
 )
 @Builder
 @NoArgsConstructor
