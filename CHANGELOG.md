@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2025-07-13
+
+### Added
+- Added `spring.jpa.open-in-view: false` to `application.yml` to avoid performance issues.
+
+### Changed
+- Project name changed from "Eterea Core Service" to "Unificado Core Service".
+
+### Fixed
+- Corrección del pipeline por error de GitHub Actions.
+
 ## [0.3.1] - 2025-07-12
 
 ### Fixed

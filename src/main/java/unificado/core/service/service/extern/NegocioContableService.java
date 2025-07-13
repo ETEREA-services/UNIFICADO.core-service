@@ -58,6 +58,6 @@ public class NegocioContableService {
                 .bodyToFlux(BigDecimal.class)
                 .collectList()
                 .doOnSuccess(values -> log.debug("Received values: {}", values))
-                .doOnError(error -> log.error("Failed to retrieve totales for account {}", numeroCuenta, error));
+                .doOnError(error -> log.error("Failed to retrieve totales for account {}. Reason: {}", numeroCuenta, error.getMessage()));
     }
 }
