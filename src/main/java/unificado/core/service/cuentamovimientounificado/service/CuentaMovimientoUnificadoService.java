@@ -1,6 +1,6 @@
 package unificado.core.service.cuentamovimientounificado.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import unificado.core.service.cuentamovimientounificado.exception.CuentaMovimientoUnificadoException;
 import unificado.core.service.cuentamovimientounificado.model.CuentaMovimientoUnificado;
@@ -9,14 +9,10 @@ import unificado.core.service.cuentamovimientounificado.repository.CuentaMovimie
 import java.time.OffsetDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class CuentaMovimientoUnificadoService {
 
     private final CuentaMovimientoUnificadoRepository repository;
-
-    @Autowired
-    public CuentaMovimientoUnificadoService(CuentaMovimientoUnificadoRepository repository) {
-        this.repository = repository;
-    }
 
     public CuentaMovimientoUnificado findByUnique(Integer negocioId, Long numeroCuenta, OffsetDateTime desde, OffsetDateTime hasta, Byte debita) {
         return repository.findByNegocioIdAndNumeroCuentaAndDesdeAndHastaAndDebita(negocioId, numeroCuenta, desde, hasta, debita).orElseThrow(() -> new CuentaMovimientoUnificadoException(negocioId, numeroCuenta, desde, hasta, debita));

@@ -1,6 +1,6 @@
 package unificado.core.service.negocio.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,25 +15,21 @@ import unificado.core.service.negocio.service.NegocioService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/unificado/negocio")
+@RequestMapping("/api/unificado/core/negocio")
+@RequiredArgsConstructor
 public class NegocioController {
 
     private final NegocioService service;
 
-    @Autowired
-    public NegocioController(NegocioService service) {
-        this.service = service;
-    }
-
     @GetMapping("/")
     public ResponseEntity<List<Negocio>> findAll() {
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{negocioId}")
     public ResponseEntity<Negocio> findByNegocioId(@PathVariable Integer negocioId) {
         try {
-            return new ResponseEntity<>(service.findByNegocioId(negocioId), HttpStatus.OK);
+            return ResponseEntity.ok(service.findByNegocioId(negocioId));
         } catch (NegocioException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
