@@ -1,6 +1,10 @@
 package unificado.core.service.model;
 
 import org.junit.jupiter.api.Test;
+import unificado.core.service.cuenta.model.Cuenta;
+import unificado.core.service.cuentanegocio.model.CuentaNegocio;
+import unificado.core.service.negocio.model.Negocio;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

@@ -3,7 +3,8 @@ package unificado.core.service.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import unificado.core.service.model.Negocio;
+import unificado.core.service.negocio.model.Negocio;
+import unificado.core.service.negocio.repository.NegocioRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

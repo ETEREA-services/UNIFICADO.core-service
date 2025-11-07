@@ -6,9 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import unificado.core.service.exception.NegocioException;
-import unificado.core.service.model.Negocio;
-import unificado.core.service.repository.NegocioRepository;
+import unificado.core.service.negocio.exception.NegocioException;
+import unificado.core.service.negocio.model.Negocio;
+import unificado.core.service.negocio.repository.NegocioRepository;
+import unificado.core.service.negocio.service.NegocioService;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +42,7 @@ class NegocioServiceTest {
     @Test
     void whenFindAll_thenReturnNegocioList() {
         // Given
-        when(negocioRepository.findAll()).thenReturn(Collections.singletonList(negocio));
+        when(negocioRepository.findAllByOrderByNegocioId()).thenReturn(Collections.singletonList(negocio));
 
         // When
         List<Negocio> negocios = negocioService.findAll();
@@ -49,7 +50,7 @@ class NegocioServiceTest {
         // Then
         assertThat(negocios).isNotNull().hasSize(1);
         assertThat(negocios.get(0).getNombre()).isEqualTo("Test Negocio");
-        verify(negocioRepository).findAll();
+        verify(negocioRepository).findAllByOrderByNegocioId();
     }
 
     @Test

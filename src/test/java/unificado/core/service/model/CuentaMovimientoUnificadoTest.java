@@ -1,6 +1,8 @@
 package unificado.core.service.model;
 
 import org.junit.jupiter.api.Test;
+import unificado.core.service.cuentamovimientounificado.model.CuentaMovimientoUnificado;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

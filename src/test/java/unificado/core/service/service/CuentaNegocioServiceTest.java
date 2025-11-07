@@ -6,9 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import unificado.core.service.exception.CuentaNegocioException;
-import unificado.core.service.model.CuentaNegocio;
-import unificado.core.service.repository.CuentaNegocioRepository;
+import unificado.core.service.cuentanegocio.exception.CuentaNegocioException;
+import unificado.core.service.cuentanegocio.model.CuentaNegocio;
+import unificado.core.service.cuentanegocio.repository.CuentaNegocioRepository;
+import unificado.core.service.cuentanegocio.service.CuentaNegocioService;
 
 import java.math.BigDecimal;
 import java.util.Collections;

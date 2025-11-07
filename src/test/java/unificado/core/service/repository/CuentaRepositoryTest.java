@@ -3,7 +3,8 @@ package unificado.core.service.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import unificado.core.service.model.Cuenta;
+import unificado.core.service.cuenta.model.Cuenta;
+import unificado.core.service.cuenta.repository.CuentaRepository;
 
 import java.math.BigDecimal;
 import java.util.Optional;

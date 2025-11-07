@@ -4,9 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import unificado.core.service.model.Cuenta;
-import unificado.core.service.model.CuentaNegocio;
-import unificado.core.service.model.Negocio;
+import unificado.core.service.cuenta.model.Cuenta;
+import unificado.core.service.cuentanegocio.model.CuentaNegocio;
+import unificado.core.service.cuentanegocio.repository.CuentaNegocioRepository;
+import unificado.core.service.negocio.model.Negocio;
 
 import java.math.BigDecimal;
 import java.util.Optional;

@@ -1,0 +1,27 @@
+sequenceDiagram
+    actor User
+    participant Controller
+    participant GeneraComprasService
+    participant NegocioService
+    participant NegocioCoreProveedorMovimientoService
+    participant FileSystem
+
+    User->>+Controller: "POST /generate/purchases"
+    Controller->>+GeneraComprasService: "generateFiles(filenames, desde, hasta)"
+
+    GeneraComprasService->>+NegocioService: "findAll()"
+    NegocioService-->>-GeneraComprasService: "List<Negocio>"
+
+    loop "Para cada Negocio"
+        GeneraComprasService->>+NegocioCoreProveedorMovimientoService: "findAllInformacionCompras(backendServer, backendPort, desde, hasta)"
+        NegocioCoreProveedorMovimientoService-->>-GeneraComprasService: "Mono<List<ProveedorMovimiento>>"
+
+        alt "Procesar movimientos de proveedores"
+            GeneraComprasService->>GeneraComprasService: "Validar CUIT y generar archivos"
+            GeneraComprasService->>+FileSystem: "Escribir archivos de compras"
+            FileSystem-->>-GeneraComprasService: "Archivos generados"
+        end
+    end
+
+    GeneraComprasService-->>-Controller: "Archivos generados exitosamente"
+    Controller-->>-User: "200 OK"

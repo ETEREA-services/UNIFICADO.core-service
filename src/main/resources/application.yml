@@ -5,6 +5,7 @@ app:
   database: uniftsa
   user: root
   password: root
+  cuit: 30232323239
 
 server:
   port: ${app.port}
