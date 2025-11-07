@@ -7,7 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import reactor.core.publisher.Mono;
-import unificado.core.service.service.facade.BalanceService;
+import unificado.core.service.balance.controller.BalanceController;
+import unificado.core.service.balance.service.BalanceService;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -46,7 +47,7 @@ class BalanceControllerTest {
                 .willReturn(Mono.just(Collections.emptyList()));
 
         // When & Then
-        mockMvc.perform(get("/api/unificado/balance/generate/processCuenta/{numeroMaestro}/{desde}/{hasta}/{incluyeApertura}/{incluyeInflacion}",
+        mockMvc.perform(get("/api/unificado/core/balance/generate/processCuenta/{numeroMaestro}/{desde}/{hasta}/{incluyeApertura}/{incluyeInflacion}",
                 numeroMaestro, desdeStr, hastaStr, true, false)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

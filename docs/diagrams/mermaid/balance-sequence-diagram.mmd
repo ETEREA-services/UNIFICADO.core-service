@@ -3,7 +3,7 @@ sequenceDiagram
     participant BalanceController
     participant BalanceService
     participant CuentaNegocioService
-    participant NegocioContableService
+    participant NegocioCoreBalanceService
     participant CuentaMovimientoUnificadoService
     participant DB
 
@@ -16,8 +16,8 @@ sequenceDiagram
     CuentaNegocioService-->>-BalanceService: "List<CuentaNegocio>"
 
     loop "Para cada CuentaNegocio (en paralelo)"
-        BalanceService->>+NegocioContableService: "totalesEntreFechasByNegocio(...)"
-        NegocioContableService-->>-BalanceService: "Mono<Tuple2<BigDecimal, BigDecimal>> (totales)"
+        BalanceService->>+NegocioCoreBalanceService: "totalesEntreFechasByNegocio(...)"
+        NegocioCoreBalanceService-->>-BalanceService: "Mono<Tuple2<BigDecimal, BigDecimal>> (totales)"
         
         alt "TotalDebe > 0"
             BalanceService->>+CuentaMovimientoUnificadoService: "findByUnique(...)"

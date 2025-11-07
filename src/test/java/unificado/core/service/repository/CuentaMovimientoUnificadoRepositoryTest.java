@@ -3,7 +3,8 @@ package unificado.core.service.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import unificado.core.service.model.CuentaMovimientoUnificado;
+import unificado.core.service.cuentamovimientounificado.model.CuentaMovimientoUnificado;
+import unificado.core.service.cuentamovimientounificado.repository.CuentaMovimientoUnificadoRepository;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

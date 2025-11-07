@@ -6,9 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import unificado.core.service.exception.CuentaMovimientoUnificadoException;
-import unificado.core.service.model.CuentaMovimientoUnificado;
-import unificado.core.service.repository.CuentaMovimientoUnificadoRepository;
+import unificado.core.service.cuentamovimientounificado.exception.CuentaMovimientoUnificadoException;
+import unificado.core.service.cuentamovimientounificado.model.CuentaMovimientoUnificado;
+import unificado.core.service.cuentamovimientounificado.repository.CuentaMovimientoUnificadoRepository;
+import unificado.core.service.cuentamovimientounificado.service.CuentaMovimientoUnificadoService;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

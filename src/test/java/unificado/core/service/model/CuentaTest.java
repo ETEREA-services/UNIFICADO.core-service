@@ -1,6 +1,8 @@
 package unificado.core.service.model;
 
 import org.junit.jupiter.api.Test;
+import unificado.core.service.cuenta.model.Cuenta;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

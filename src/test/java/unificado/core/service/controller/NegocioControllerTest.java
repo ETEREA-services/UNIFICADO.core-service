@@ -6,9 +6,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import unificado.core.service.exception.NegocioException;
-import unificado.core.service.model.Negocio;
-import unificado.core.service.service.NegocioService;
+import unificado.core.service.negocio.controller.NegocioController;
+import unificado.core.service.negocio.exception.NegocioException;
+import unificado.core.service.negocio.model.Negocio;
+import unificado.core.service.negocio.service.NegocioService;
 
 import java.util.Collections;
 

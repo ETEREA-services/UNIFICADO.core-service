@@ -6,8 +6,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import unificado.core.service.model.Cuenta;
-import unificado.core.service.service.CuentaService;
+import unificado.core.service.cuenta.controller.CuentaController;
+import unificado.core.service.cuenta.model.Cuenta;
+import unificado.core.service.cuenta.service.CuentaService;
 
 import java.util.Collections;
 

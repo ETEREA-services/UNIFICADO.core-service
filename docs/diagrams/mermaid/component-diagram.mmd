@@ -12,7 +12,13 @@ graph TD
             BalanceService["BalanceService"]
             CuentaNegocioService["CuentaNegocioService"]
             CuentaMovimientoUnificadoService["CuentaMovimientoUnificadoService"]
-            NegocioContableService["NegocioContableService (Externo)"]
+            NegocioCoreBalanceService["NegocioCoreBalanceService (Externo)"]
+            NegocioCoreClienteMovimientoService["NegocioCoreClienteMovimientoService (Externo)"]
+            NegocioCoreProveedorMovimientoService["NegocioCoreProveedorMovimientoService (Externo)"]
+            GeneraComprasService["GeneraComprasService"]
+            GeneraVentasService["GeneraVentasService"]
+            LIDGeneraComprasService["LIDGeneraComprasService"]
+            LIDGeneraVentasService["LIDGeneraVentasService"]
         end
 
         subgraph "Data Access Layer"
@@ -34,10 +40,10 @@ graph TD
     BalanceController --> BalanceService
 
     BalanceService --> CuentaNegocioService
-    BalanceService --> NegocioContableService
+    BalanceService --> NegocioCoreBalanceService
     BalanceService --> CuentaMovimientoUnificadoService
 
-    NegocioContableService --> ExtService
+    NegocioCoreBalanceService --> ExtService
 
     CuentaNegocioService --> CuentaNegocioRepo
     CuentaMovimientoUnificadoService --> MovimientoRepo

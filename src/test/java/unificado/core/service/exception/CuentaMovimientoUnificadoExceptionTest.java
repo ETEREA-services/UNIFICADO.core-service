@@ -1,6 +1,7 @@
 package unificado.core.service.exception;
 
 import org.junit.jupiter.api.Test;
+import unificado.core.service.cuentamovimientounificado.exception.CuentaMovimientoUnificadoException;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

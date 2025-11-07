@@ -1,6 +1,8 @@
 package unificado.core.service.model;
 
 import org.junit.jupiter.api.Test;
+import unificado.core.service.negocio.model.Negocio;
+
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;

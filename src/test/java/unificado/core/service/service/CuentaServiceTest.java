@@ -5,8 +5,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import unificado.core.service.model.Cuenta;
-import unificado.core.service.repository.CuentaRepository;
+import unificado.core.service.cuenta.model.Cuenta;
+import unificado.core.service.cuenta.repository.CuentaRepository;
+import unificado.core.service.cuenta.service.CuentaService;
 
 import java.util.Collections;
 import java.util.List;
