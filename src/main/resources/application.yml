@@ -1,6 +1,9 @@
 app:
   port: ${APP_PORT:8090}
   logging: debug
+  consul:
+    host: consul-service
+    port: 8500
   server: 192.168.201.132:3309
   database: uniftsa
   user: root
@@ -11,6 +14,33 @@ server:
   port: ${app.port}
     
 spring:
+  application:
+    name: core-service
+  cloud:
+    consul:
+      host: ${app.consul.host}
+      port: ${app.consul.port}
+      discovery:
+        instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}-${server.port}
+        prefer-ip-address: true
+        tags:
+          - "traefik.enable=true"
+
+          # --- Router Definition ---
+          - "traefik.http.routers.core-router.rule=PathPrefix(`/api/unificado/core`)"
+          - "traefik.http.routers.core-router.entrypoints=requests"
+          - "traefik.http.routers.core-router.service=core-service" # Vincula al servicio de Traefik
+          - "traefik.http.routers.core-router.middlewares=core-stripprefix" # Vincula al middleware
+
+          # --- Middleware Definition ---
+          - "traefik.http.middlewares.core-stripprefix.stripprefix.prefixes=/api/unificado/core"
+
+          # --- Service Definition ---
+          - "traefik.http.services.core-service.loadbalancer.server.port=8090"
+
+          # --- Metadata Tags ---
+          - "unificado"
+          - "core"
   datasource:
     url: jdbc:mysql://${app.server}/${app.database}?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
     username: ${app.user}

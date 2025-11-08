@@ -1,6 +1,6 @@
 package unificado.core.service.cuentanegocio.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import unificado.core.service.cuentanegocio.exception.CuentaNegocioException;
 import unificado.core.service.cuentanegocio.model.CuentaNegocio;
@@ -10,14 +10,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CuentaNegocioService {
 
     private final CuentaNegocioRepository repository;
-
-    @Autowired
-    public CuentaNegocioService(CuentaNegocioRepository repository) {
-        this.repository = repository;
-    }
 
     public CuentaNegocio findByCuentaNegocioId(Long cuentaNegocioId) {
         return repository.findByCuentaNegocioId(cuentaNegocioId).orElseThrow(() -> new CuentaNegocioException(cuentaNegocioId));

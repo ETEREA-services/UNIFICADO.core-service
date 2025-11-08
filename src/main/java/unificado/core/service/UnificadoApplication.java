@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class UnificadoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UnificadoApplication.class, args);
+	static void main(String[] args) {
+        SpringApplication.run(UnificadoApplication.class, args);
 	}
 
 }
