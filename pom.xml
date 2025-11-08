@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.termascacheuta</groupId>
 	<artifactId>core.unificado</artifactId>
-	<version>0.5.0</version>
+	<version>0.5.1</version>
 	<name>unificado.core-service</name>
 	<description>Unificado</description>
 	<properties>

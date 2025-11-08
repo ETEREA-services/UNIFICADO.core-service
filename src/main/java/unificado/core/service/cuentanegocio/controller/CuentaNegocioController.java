@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/unificado/cuentaNegocio")
+@RequestMapping("/api/unificado/core/cuentaNegocio")
 @RequiredArgsConstructor
 public class CuentaNegocioController {
 

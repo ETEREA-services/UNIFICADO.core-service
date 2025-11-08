@@ -4,7 +4,7 @@
 
 ![Java](https://img.shields.io/badge/Java-24-blue.svg?logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen.svg?logo=spring&logoColor=white) ![Maven](https://img.shields.io/badge/build-Maven-red.svg?logo=apache-maven&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-blue.svg?logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-blue.svg?logo=docker&logoColor=white)
 
-**Version:** 0.5.0
+**Version:** 0.5.1
 
 ## Descripción General
 
