@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.1] - 2025-11-08
+
+### Changed
+- refactor: Updated API paths in CuentaController and CuentaNegocioController to include '/core' segment for better organization
+
+### Fixed
+- fix: Removed duplicate NegocioService class to resolve service conflicts
+- fix: Added explicit mainClass configuration in pom.xml for proper executable build
+
 ## [0.5.0] - 2025-11-07
 
 ### Added

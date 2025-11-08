@@ -12,7 +12,7 @@ import unificado.core.service.cuenta.service.CuentaService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/unificado/cuenta")
+@RequestMapping("/api/unificado/core/cuenta")
 @RequiredArgsConstructor
 public class CuentaController {
 
