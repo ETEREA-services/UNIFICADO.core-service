@@ -92,6 +92,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<mainClass>unificado.core.service.UnificadoApplication</mainClass>
 					<executable>true</executable>
 				</configuration>
 			</plugin>
