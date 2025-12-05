@@ -60,7 +60,6 @@ public class GeneraVentasService {
             BigDecimal total = BigDecimal.ZERO;
 
             for (var clienteMovimiento : Objects.requireNonNull(negocioCoreClienteMovimientoService.findAllInformacionVentas(negocio.getBackendServer(), negocio.getBackendPort(), desde, hasta).block())) {
-                log.debug("Processing ClienteMovimiento -> {}", clienteMovimiento.jsonify());
                 if (clienteMovimiento.getComprobante().getComprobanteAfip() == null) {
                     log.debug("Comprobante Afip no existe");
                     outErroresVentas.write("ERROR: Negocio " + negocio.getNombre() + " - Comprobante " + clienteMovimiento.getComprobante().getDescripcion() + " (" + clienteMovimiento.getComprobante().getComprobanteId() + ") SIN Tipo AFIP Asociado!!" + "\r\n");
