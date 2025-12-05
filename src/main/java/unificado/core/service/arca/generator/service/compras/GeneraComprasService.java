@@ -48,7 +48,7 @@ public class GeneraComprasService {
         Map<String, NegocioCoreProveedorMovimiento> comprasMap = new HashMap<>();
 
         for (var negocio : negocioService.findAll()) {
-            log.debug("Generando Compras Negocio: {}", negocio.jsonify());
+            log.debug("\n\nGenerando Compras Negocio: {}\n\n", negocio.jsonify());
 
             BigDecimal neto = BigDecimal.ZERO;
             BigDecimal exento = BigDecimal.ZERO;
@@ -60,9 +60,8 @@ public class GeneraComprasService {
             BigDecimal total = BigDecimal.ZERO;
 
             for (var proveedorMovimiento : Objects.requireNonNull(negocioCoreProveedorMovimientoService.findAllInformacionCompras(negocio.getBackendServer(), negocio.getBackendPort(), desde, hasta).block())) {
-                log.debug("Processing ProveedorMovimiento -> {}", proveedorMovimiento.jsonify());
                 if (proveedorMovimiento.getComprobante().getComprobanteAfip() == null) {
-                    log.debug("Comprobante Afip no existe");
+                    log.debug("\n\nComprobante Afip no existe\n\n");
                     outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Comprobante " + proveedorMovimiento.getComprobante().getDescripcion() + " (" + proveedorMovimiento.getComprobante().getComprobanteId() + ") SIN Tipo AFIP Asociado!!" + "\r\n");
                     continue;
                 }
@@ -72,16 +71,14 @@ public class GeneraComprasService {
                 int tipoDocumento = 80;
                 String numeroDocumento = proveedor.getCuit().replace("-", "").trim();
 
-                if (tipoDocumento == 80) {
-                    String originalNumeroDocumento = numeroDocumento;
-                    if (!Tool.validaCuit(numeroDocumento)) {
-                        outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " CUIT " + proveedor.getCuit() + " NO Válida. Se sugiere " + Tool.generaCuit(numeroDocumento.substring(2, 10), "M") + " - Cambiado por 20-11111111-2 . . ." + "\r\n");
-                        numeroDocumento = "20111111112";
-                    }
-                    if (originalNumeroDocumento.equals("20111111112")) {
-                        outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " CUIT " + proveedor.getCuit() + " NO Válida. El CUIT es de TERMALIA - Cambiado por 20-11111111-2 . . ." + "\r\n");
-                        numeroDocumento = "20111111112";
-                    }
+                String originalNumeroDocumento = numeroDocumento;
+                if (!Tool.validaCuit(numeroDocumento)) {
+                    outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " CUIT " + proveedor.getCuit() + " NO Válida. Se sugiere " + Tool.generaCuit(numeroDocumento.substring(2, 10), "M") + " - Cambiado por 20-11111111-2 . . ." + "\r\n");
+                    numeroDocumento = "20111111112";
+                }
+                if (originalNumeroDocumento.equals("20111111112")) {
+                    outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " CUIT " + proveedor.getCuit() + " NO Válida. El CUIT es de TERMALIA - Cambiado por 20-11111111-2 . . ." + "\r\n");
+                    numeroDocumento = "20111111112";
                 }
 
                 if (proveedorMovimiento.getPrefijo() == 0) {
@@ -162,6 +159,15 @@ public class GeneraComprasService {
                     cantidadAlicuotas++;
                 }
 
+                // Calcula el neto si sólo discrimina el 21%
+                if (proveedorMovimiento.getMontoIva().abs().compareTo(BigDecimal.ZERO) > 0 && proveedorMovimiento.getMontoIva27().abs().compareTo(BigDecimal.ZERO) == 0 && proveedorMovimiento.getMontoIva105().abs().compareTo(BigDecimal.ZERO) == 0) {
+                    BigDecimal importe = proveedorMovimiento.getImporte();
+                    importe = importe.subtract(proveedorMovimiento.getGastosNoGravados());
+                    importe = importe.subtract(proveedorMovimiento.getPercepcionIva());
+                    importe = importe.subtract(proveedorMovimiento.getPercepcionIngresosBrutos());
+                    netoComprobante = importe.divide(new BigDecimal("1.21"), 2, RoundingMode.HALF_UP);
+                }
+
                 BigDecimal importe = proveedorMovimiento.getImporte();
 
                 totalComprobante = totalComprobante.add(proveedorMovimiento.getMontoFacturadoC().abs());
@@ -212,11 +218,22 @@ public class GeneraComprasService {
                 log.debug("Linea Comprobante -> {}", lineaComprobante);
                 outComprasComprobante.write(lineaComprobante.toString() + "\r\n");
 
-                if (netoComprobante.subtract(proveedorMovimiento.getNeto().abs()).abs().compareTo(new BigDecimal("0.10")) > 0) {
-                    outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " Comprobante " + proveedorMovimiento.getComprobante().getDescripcion() + " " + proveedorMovimiento.getPrefijo() + "/" + proveedorMovimiento.getNumeroComprobante() + " con CREDITO FISCAL Inconsistente - NETO Informado: " + String.format("%.2f", proveedorMovimiento.getNeto()) + " - NETO Esperado: " + String.format("%.2f", netoComprobante) + " . . ." + "\r\n");
+                var diferencia = netoComprobante.subtract(proveedorMovimiento.getNeto()).abs();
+                if (diferencia.compareTo(new BigDecimal("0.10")) > 0) {
+                    log.debug("\n\nDiferencia -> {}\n\n", diferencia);
+                    log.debug("\n\nComprobante con error de neto -> {}\n\n", proveedorMovimiento.jsonify());
+                    var errorDescription = "ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " Comprobante " + proveedorMovimiento.getComprobante().getDescripcion() + " " + proveedorMovimiento.getPrefijo() + "/" + proveedorMovimiento.getNumeroComprobante() + " con CREDITO FISCAL Inconsistente - NETO Informado: " + String.format("%.2f", proveedorMovimiento.getNeto()) + " - NETO Esperado: " + String.format("%.2f", netoComprobante) + " . . ." + "\r\n";
+                    log.debug("\n\n" + errorDescription + "\n\n");
+                    outErroresCompras.write(errorDescription);
                 }
-                if (totalComprobante.subtract(proveedorMovimiento.getImporte().abs()).abs().compareTo(new BigDecimal("0.50")) > 0) {
-                    outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " Comprobante " + proveedorMovimiento.getComprobante().getDescripcion() + " " + proveedorMovimiento.getPrefijo() + "/" + proveedorMovimiento.getNumeroComprobante() + " con TOTAL Inconsistente - TOTAL Informado: " + String.format("%.2f", proveedorMovimiento.getImporte()) + " - TOTAL Esperado: " + String.format("%.2f", totalComprobante) + " . . ." + "\r\n");
+
+                diferencia = totalComprobante.subtract(proveedorMovimiento.getImporte().abs()).abs();
+                if (diferencia.compareTo(new BigDecimal("0.50")) > 0) {
+                    log.debug("\n\nDiferencia -> {}\n\n", diferencia);
+                    log.debug("\n\nComprobante con error de total -> {}\n\n", proveedorMovimiento.jsonify());
+                    var errorDescription = "ERROR: Negocio " + negocio.getNombre() + " - Proveedor " + proveedor.getRazonSocial() + " Comprobante " + proveedorMovimiento.getComprobante().getDescripcion() + " " + proveedorMovimiento.getPrefijo() + "/" + proveedorMovimiento.getNumeroComprobante() + " con TOTAL Inconsistente - TOTAL Informado: " + String.format("%.2f", proveedorMovimiento.getImporte()) + " - TOTAL Esperado: " + String.format("%.2f", totalComprobante) + " . . ." + "\r\n";
+                    log.debug("\n\n" + errorDescription + "\n\n");
+                    outErroresCompras.write(errorDescription);
                 }
 
                 neto = neto.add(proveedorMovimiento.getNeto());
