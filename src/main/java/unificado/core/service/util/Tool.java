@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -127,5 +128,16 @@ public class Tool {
         zipOutputStream.closeEntry();
     }
 
+    public static BigDecimal copySign(BigDecimal signReference, BigDecimal value) {
+        if (signReference == null || value == null) {
+            throw new IllegalArgumentException("Los parámetros no pueden ser null");
+        }
+
+        // Aplicar el signo de signReference a la magnitud de value
+        if (signReference.signum() < 0) {
+            return value.abs().negate(); // valor negativo con magnitud de |value|
+        }
+        return value.abs();          // valor no negativo (positivo o cero)
+    }
 
 }
