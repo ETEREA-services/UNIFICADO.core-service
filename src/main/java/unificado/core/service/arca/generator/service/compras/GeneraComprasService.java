@@ -168,6 +168,9 @@ public class GeneraComprasService {
                     netoComprobante = importe.divide(new BigDecimal("1.21"), 2, RoundingMode.HALF_UP);
                 }
 
+                // Pone signo de neto esperado igual que el del importe del comprobante
+                netoComprobante = Tool.copySign(proveedorMovimiento.getImporte(), netoComprobante);
+
                 BigDecimal importe = proveedorMovimiento.getImporte();
 
                 totalComprobante = totalComprobante.add(proveedorMovimiento.getMontoFacturadoC().abs());
@@ -181,9 +184,8 @@ public class GeneraComprasService {
                 if (totalComprobante.subtract(proveedorMovimiento.getImporte().abs()).abs().compareTo(new BigDecimal("0.50")) > 0) {
                     importe = totalComprobante;
                 }
-                if (proveedorMovimiento.getImporte().compareTo(BigDecimal.ZERO) < 0 && importe.compareTo(BigDecimal.ZERO) > 0) {
-                    importe = importe.negate();
-                }
+
+                importe = Tool.copySign(proveedorMovimiento.getImporte(), importe);
 
                 StringBuilder lineaComprobante = new StringBuilder();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -219,6 +221,7 @@ public class GeneraComprasService {
                 outComprasComprobante.write(lineaComprobante.toString() + "\r\n");
 
                 var diferencia = netoComprobante.subtract(proveedorMovimiento.getNeto()).abs();
+
                 if (diferencia.compareTo(new BigDecimal("0.10")) > 0) {
                     log.debug("\n\nDiferencia -> {}\n\n", diferencia);
                     log.debug("\n\nComprobante con error de neto -> {}\n\n", proveedorMovimiento.jsonify());
