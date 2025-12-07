@@ -25,7 +25,7 @@ public class RegimenInformacionComprasVentasController {
     public ResponseEntity<Resource> generateFiles(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime desde,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime hasta) throws IOException {
-        String filename = service.generateFiles(desde, hasta);
+        String filename = service.generateFiles(desde, hasta, false);
         return Tool.generateFile(filename, filename);
     }
 

@@ -16,7 +16,7 @@ public class LIDGeneraComprasService {
 
     private final GeneraComprasService generaComprasService;
 
-    public List<String> generateFiles(String path, OffsetDateTime desde, OffsetDateTime hasta) throws IOException {
+    public List<String> generateFiles(String path, OffsetDateTime desde, OffsetDateTime hasta, Boolean correccionCompras) throws IOException {
 
         var filenameComprasComprobante = path + "LIBRO_IVA_DIGITAL_COMPRAS_CBTE.txt";
         var filenameComprasAlicuotas = path + "LIBRO_IVA_DIGITAL_COMPRAS_ALICUOTAS.txt";
@@ -29,7 +29,7 @@ public class LIDGeneraComprasService {
         filenames.put("filenameErroresCompras", filenameErroresCompras);
         filenames.put("filenameTotalesCompras", filenameTotalesCompras);
 
-        generaComprasService.generateFiles(filenames, desde, hasta);
+        generaComprasService.generateFiles(filenames, desde, hasta, correccionCompras);
 
         return List.of(filenameComprasComprobante, filenameComprasAlicuotas, filenameErroresCompras, filenameTotalesCompras);
     }

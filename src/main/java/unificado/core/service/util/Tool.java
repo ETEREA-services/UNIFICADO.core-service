@@ -1,5 +1,6 @@
 package unificado.core.service.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -11,9 +12,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+@Slf4j
 public class Tool {
 
     public static ResponseEntity<Resource> generateFile(String filename, String headerFilename) throws FileNotFoundException {
@@ -138,6 +141,93 @@ public class Tool {
             return value.abs().negate(); // valor negativo con magnitud de |value|
         }
         return value.abs();          // valor no negativo (positivo o cero)
+    }
+
+    public static AjusteNeto ajustarNeto(BigDecimal importeTotal,
+                                         BigDecimal montoIva21,
+                                         BigDecimal montoIva105,
+                                         BigDecimal montoIva27,
+                                         BigDecimal percepcionIva,
+                                         BigDecimal percepcionIngresosBrutos,
+                                         BigDecimal gastosNoGravados) {
+
+        // 1. Definir Tasas
+        BigDecimal TASA_21 = new BigDecimal("0.21");
+        BigDecimal TASA_105 = new BigDecimal("0.105");
+        BigDecimal TASA_27 = new BigDecimal("0.27");
+
+        // 2. Determinar la "Masa Gravable Real"
+        // Restamos del Total Sagrado todo lo que no es Neto ni IVA
+        BigDecimal fijos = percepcionIva.add(percepcionIngresosBrutos).add(gastosNoGravados);
+        BigDecimal disponibleParaGravado = importeTotal.subtract(fijos);
+
+        // Si no hay plata para repartir, devolvemos ceros
+        if (disponibleParaGravado.compareTo(BigDecimal.ZERO) <= 0) {
+            return new AjusteNeto(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+        }
+
+        // 3. Ingeniería Inversa para sacar las PROPORCIONES (Weights)
+        // Calculamos cuánto "Neto Teórico" habría en cada cubo según los IVAs de entrada.
+        // Usamos 10 decimales para no perder precisión en la proporción.
+        BigDecimal n21Raw = (montoIva21.compareTo(BigDecimal.ZERO) != 0) ? montoIva21.divide(TASA_21, 10, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+        BigDecimal n105Raw = (montoIva105.compareTo(BigDecimal.ZERO) != 0) ? montoIva105.divide(TASA_105, 10, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+        BigDecimal n27Raw = (montoIva27.compareTo(BigDecimal.ZERO) != 0) ? montoIva27.divide(TASA_27, 10, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+
+        // Calculamos el "Bruto Teórico" (Neto + IVA) de cada categoría
+        BigDecimal brutoTeorico21 = n21Raw.multiply(BigDecimal.ONE.add(TASA_21));
+        BigDecimal brutoTeorico105 = n105Raw.multiply(BigDecimal.ONE.add(TASA_105));
+        BigDecimal brutoTeorico27 = n27Raw.multiply(BigDecimal.ONE.add(TASA_27));
+
+        BigDecimal totalBrutoTeorico = brutoTeorico21.add(brutoTeorico105).add(brutoTeorico27);
+
+        // Validación: Si los IVAs vinieron en 0, no sabemos cómo repartir.
+        if (totalBrutoTeorico.compareTo(BigDecimal.ZERO) == 0) {
+            // Opción A: Asumir todo al 21%?
+            // Opción B: Devolver lo que hay (asumiendo que es todo Neto sin IVA, error de datos)
+            // Por seguridad, devolvemos el disponible como neto y 0 IVA.
+            return new AjusteNeto(disponibleParaGravado, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+        }
+
+        // 4. EL FACTOR DE AJUSTE (La clave mágica)
+        // Factor = Plata Real Disponible / Plata Teórica de los Inputs
+        BigDecimal factor = disponibleParaGravado.divide(totalBrutoTeorico, 15, RoundingMode.HALF_UP);
+
+        // 5. Aplicar Factor y Calcular Nuevos Valores Definitivos
+        // Al multiplicar el neto teórico por el factor, escalamos todo proporcionalmente
+        BigDecimal nuevoNeto21 = n21Raw.multiply(factor).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal nuevoNeto105 = n105Raw.multiply(factor).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal nuevoNeto27 = n27Raw.multiply(factor).setScale(2, RoundingMode.HALF_UP);
+
+        // Recalculamos IVA sobre el nuevo Neto (Garantiza consistencia Neto x Tasa)
+        BigDecimal nuevoIva21 = nuevoNeto21.multiply(TASA_21).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal nuevoIva105 = nuevoNeto105.multiply(TASA_105).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal nuevoIva27 = nuevoNeto27.multiply(TASA_27).setScale(2, RoundingMode.HALF_UP);
+
+        // 6. EL AJUSTE FINAL (Plug)
+        // Sumamos todo lo nuevo y vemos si falta o sobra algún centavo para llegar al TOTAL SAGRADO
+        BigDecimal sumaCalculada = nuevoNeto21.add(nuevoNeto105).add(nuevoNeto27)
+                .add(nuevoIva21).add(nuevoIva105).add(nuevoIva27)
+                .add(fijos);
+
+        BigDecimal diferencia = importeTotal.subtract(sumaCalculada);
+
+        // Si hay diferencia (centavos), se la asignamos al NETO de la categoría con mayor monto.
+        // ¿Por qué al Neto? Porque altera menos la ecuación que tocar el IVA.
+        if (diferencia.compareTo(BigDecimal.ZERO) != 0) {
+            // Buscamos quién tiene más peso (usamos el bruto teórico calculado antes para decidir)
+            if (brutoTeorico21.compareTo(brutoTeorico105) >= 0 && brutoTeorico21.compareTo(brutoTeorico27) >= 0) {
+                nuevoNeto21 = nuevoNeto21.add(diferencia);
+            } else if (brutoTeorico105.compareTo(brutoTeorico21) >= 0 && brutoTeorico105.compareTo(brutoTeorico27) >= 0) {
+                nuevoNeto105 = nuevoNeto105.add(diferencia);
+            } else {
+                nuevoNeto27 = nuevoNeto27.add(diferencia);
+            }
+        }
+
+        // 7. Resultado Final
+        BigDecimal nuevoNetoRegistradoTotal = nuevoNeto21.add(nuevoNeto105).add(nuevoNeto27);
+
+        return new AjusteNeto(nuevoNetoRegistradoTotal, nuevoIva21, nuevoIva105, nuevoIva27);
     }
 
 }

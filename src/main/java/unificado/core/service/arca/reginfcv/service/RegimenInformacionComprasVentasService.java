@@ -27,7 +27,7 @@ public class RegimenInformacionComprasVentasService {
     @Value("${app.cuit}")
     private String cuit;
 
-    public String generateFiles(OffsetDateTime desde, OffsetDateTime hasta) throws IOException {
+    public String generateFiles(OffsetDateTime desde, OffsetDateTime hasta, Boolean correccionCompras) throws IOException {
         var path = environment.getProperty("path.files");
         var outputFilename = path + "RegInfCV.zip";
 
@@ -46,7 +46,7 @@ public class RegimenInformacionComprasVentasService {
         }
 
         log.debug("Generando compras de negocios");
-        filenames = regInfoCVGeneraComprasService.generateFiles(path, desde, hasta);
+        filenames = regInfoCVGeneraComprasService.generateFiles(path, desde, hasta, correccionCompras);
         for (var filename : filenames) {
             Tool.addFileToZip(zipOutputStream, filename);
         }
