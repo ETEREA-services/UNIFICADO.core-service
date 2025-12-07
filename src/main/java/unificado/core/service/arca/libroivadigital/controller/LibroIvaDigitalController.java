@@ -21,11 +21,12 @@ public class LibroIvaDigitalController {
 
     private final LibroIvaDigitalService service;
 
-    @GetMapping("/generate/{desde}/{hasta}")
+    @GetMapping("/generate/{desde}/{hasta}/correccion/compras/{correccionCompras}")
     public ResponseEntity<Resource> generateFiles(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime desde,
-            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime hasta) throws IOException {
-        String filename = service.generateFiles(desde, hasta);
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime hasta,
+            @PathVariable Boolean correccionCompras) throws IOException {
+        String filename = service.generateFiles(desde, hasta, correccionCompras);
         return Tool.generateFile(filename, filename);
     }
 

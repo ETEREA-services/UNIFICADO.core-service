@@ -15,6 +15,7 @@ public class NegocioCoreCuenta {
     private Byte integra;
     private Byte transfiere;
     private Byte movimientoStock;
+    @Builder.Default
     private BigDecimal cuentaMaestro = BigDecimal.ZERO;
     private Integer grado;
     private Long grado1;

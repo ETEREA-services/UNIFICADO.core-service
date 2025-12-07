@@ -22,7 +22,7 @@ public class LibroIvaDigitalService {
     private final LIDGeneraVentasService lIDGeneraVentasService;
     private final LIDGeneraComprasService lIDGeneraComprasService;
 
-    public String generateFiles(OffsetDateTime desde, OffsetDateTime hasta) throws IOException {
+    public String generateFiles(OffsetDateTime desde, OffsetDateTime hasta, Boolean correccionCompras) throws IOException {
 
         var path = environment.getProperty("path.files");
         var outputFilename = path + "LibroIvaDigital.zip";
@@ -36,7 +36,7 @@ public class LibroIvaDigitalService {
         }
 
         log.debug("Generando compras de negocios");
-        filenames = lIDGeneraComprasService.generateFiles(path, desde, hasta);
+        filenames = lIDGeneraComprasService.generateFiles(path, desde, hasta, correccionCompras);
         for (var filename : filenames) {
             Tool.addFileToZip(zipOutputStream, filename);
         }
