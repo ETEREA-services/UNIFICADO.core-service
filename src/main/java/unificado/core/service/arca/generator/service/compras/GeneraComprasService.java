@@ -117,7 +117,7 @@ public class GeneraComprasService {
                             + proveedorMovimiento.getPrefijo() + "/" + proveedorMovimiento.getNumeroComprobante()
                             + " REPETIDO en " + negocioRepetido.getNombre() + " . . ." + "\r\n");
                     do {
-                        proveedorMovimiento.setNumeroComprobante(proveedorMovimiento.getNumeroComprobante() + 1);
+                        proveedorMovimiento.setPrefijo(proveedorMovimiento.getPrefijo() + 1);
                         key = numeroDocumento + "." + proveedorMovimiento.getPrefijo() + "."
                                 + proveedorMovimiento.getNumeroComprobante();
                     } while (comprasMap.containsKey(key));
