@@ -121,8 +121,8 @@ public class GeneraVentasService {
 
                 if (numeroDocumento.length() > 11) {
                     tipoDocumento = 96;
-                    var numeroDocumentoSugerido = numeroDocumento.substring(numeroDocumento.length() - 11);
-                    outErroresVentas.write("ERROR: Negocio " + negocio.getNombre() + " - Cliente " + cliente.getRazonSocial() + " Documento más de 11 dígitos " + numeroDocumento + ". Sugerido -> + " + numeroDocumentoSugerido + "\r\n");
+                    var numeroDocumentoSugerido = numeroDocumento.substring(numeroDocumento.length() - 8);
+                    outErroresVentas.write("ERROR: Negocio " + negocio.getNombre() + " - Cliente " + cliente.getRazonSocial() + " Documento más de 11 dígitos " + numeroDocumento + ". Sugerido -> " + numeroDocumentoSugerido + "\r\n");
                     numeroDocumento = numeroDocumentoSugerido;
                 }
 
