@@ -132,6 +132,12 @@ public class GeneraVentasService {
                     numeroDocumento = numeroDocumentoSugerido;
                 }
 
+                // caso que no haya nada en el número de documento
+                if (numeroDocumento.isEmpty() || numeroDocumento.equals("0")) {
+                    tipoDocumento = 99;
+                    numeroDocumento = "0";
+                }
+
                 Long numeroComprobante = clienteMovimiento.getNumeroComprobante();
                 BigDecimal comprobanteImporte = clienteMovimiento.getImporte();
                 BigDecimal comprobanteNeto = clienteMovimiento.getNeto();
