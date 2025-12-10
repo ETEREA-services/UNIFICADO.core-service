@@ -165,7 +165,7 @@ public class GeneraVentasService {
                 lineaComprobante.append(String.format("%020d", numeroComprobante)); // Campo 4
                 lineaComprobante.append(String.format("%020d", numeroComprobante)); // Campo 5
                 lineaComprobante.append(String.format("%02d", tipoDocumento)); // Campo 6
-                lineaComprobante.append(String.format("%-20s", numeroDocumento).replace(' ', '0')); // Campo 7
+                lineaComprobante.append(String.format("%20s", numeroDocumento).replace(' ', '0')); // Campo 7
                 lineaComprobante.append(String.format("%-30s", Tool.replaceSymbols(cliente.getRazonSocial())), 0, 30); // Campo 8
                 lineaComprobante.append(String.format("%015d", comprobanteImporte.abs().multiply(BigDecimal.valueOf(100)).longValue())); // Campo 9
                 lineaComprobante.append("000000000000000"); // Campo 10
