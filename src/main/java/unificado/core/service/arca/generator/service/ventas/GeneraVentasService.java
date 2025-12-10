@@ -66,6 +66,12 @@ public class GeneraVentasService {
                     continue;
                 }
 
+                if (clienteMovimiento.getComprobante().getComprobanteAfipId() == 0) {
+                    log.debug("Comprobante Afip no existe");
+                    outErroresVentas.write("ERROR: Negocio " + negocio.getNombre() + " - Comprobante " + clienteMovimiento.getComprobante().getDescripcion() + " (" + clienteMovimiento.getComprobante().getComprobanteId() + ") SIN Tipo AFIP Asociado!!" + "\r\n");
+                    continue;
+                }
+
                 var cliente = clienteMovimiento.getCliente();
 
                 int tipoDocumento = 80;
