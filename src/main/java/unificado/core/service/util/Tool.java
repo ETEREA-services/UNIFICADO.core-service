@@ -115,6 +115,8 @@ public class Tool {
                 .replace("\u00E3", "a")
                 .replace("\u00D5", "O")
                 .replace("\u00F5", "o")
+                .replace("\u00D0", "D")
+                .replace("\u00F0", "d")
                 .replace("\u00D1", "N")
                 .replace("\u00F1", "n")
                 .replace("\u00BA", "o")
