@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2026-01-20
+
+### Added
+- feat: Added WebClient.Builder bean in UnificadoConfiguration for reactive HTTP client support
+- feat: Added validation for comprobanteAfipId in GeneraComprasService to skip vouchers without associated AFIP type
+
+### Changed
+- refactor: Updated Spring Boot parent to version 4.0.1 (major update with potential breaking changes)
+- refactor: Updated Lombok annotations in domain classes (NegocioCoreCliente, NegocioCoreClienteMovimiento, etc.) to include @NoArgsConstructor and @AllArgsConstructor for better serialization support
+- refactor: Updated JsonFormat pattern in NegocioCoreProveedorMovimiento from 'yyyy-MM-dd'T'HH:mm:ssZ' to 'yyyy-MM-dd'T'HH:mm:ssXXX' for improved timezone handling
+- refactor: Removed spring-boot-starter-hateoas dependency
+- refactor: Removed logback-core dependency from dependencyManagement
+- refactor: Removed <executable>true</executable> from spring-boot-maven-plugin configuration
+- refactor: Added jackson-databind dependency explicitly
+
+### Fixed
+- fix: Removed unused BigDecimal import in NegocioCoreClienteMovimientoService
+- fix: Improved document number handling in recent commits (ASCII conversion for special characters, right-alignment of document numbers, detection of sales vouchers without AFIP association)
+
+### Updated
+- deps: Updated MySQL connector-j to 9.5.0
+- deps: Updated springdoc-openapi-starter-webmvc-ui to 3.0.1
+- deps: Updated commons-lang3 to 3.20.0
+- deps: Updated mockwebserver to 5.3.2
+
 ## [0.5.1] - 2025-11-08
 
 ### Changed

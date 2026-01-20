@@ -1,12 +1,14 @@
 package unificado.core.service.extern.negocio.core.clientemovimiento.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import unificado.core.service.util.Jsonifier;
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NegocioCoreCuenta {
 
     private Long numeroCuenta;

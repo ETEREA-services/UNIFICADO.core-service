@@ -1,13 +1,15 @@
 package unificado.core.service.extern.negocio.core.common.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import unificado.core.service.extern.negocio.core.clientemovimiento.domain.NegocioCoreComprobanteAfip;
 import unificado.core.service.extern.negocio.core.clientemovimiento.domain.NegocioCoreCuenta;
 import unificado.core.service.util.Jsonifier;
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NegocioCoreComprobante {
 
     private Integer comprobanteId;
