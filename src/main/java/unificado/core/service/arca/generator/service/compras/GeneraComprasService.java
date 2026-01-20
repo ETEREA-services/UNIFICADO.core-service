@@ -50,7 +50,7 @@ public class GeneraComprasService {
         Map<String, NegocioCoreProveedorMovimiento> comprasMap = new HashMap<>();
 
         for (var negocio : negocioService.findAll()) {
-            log.debug("\n\nGenerando Compras Negocio: {}\n\n", negocio.jsonify());
+            log.info("\n\nGenerando Compras Negocio: {}\n\n", negocio.jsonify());
 
             BigDecimal neto = BigDecimal.ZERO;
             BigDecimal exento = BigDecimal.ZERO;
