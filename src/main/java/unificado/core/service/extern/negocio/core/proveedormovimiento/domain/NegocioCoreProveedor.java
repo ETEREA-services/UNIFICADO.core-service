@@ -1,10 +1,12 @@
 package unificado.core.service.extern.negocio.core.proveedormovimiento.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NegocioCoreProveedor {
 
     private Long proveedorId;

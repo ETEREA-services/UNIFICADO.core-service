@@ -2,9 +2,9 @@
 
 [![unificado.core-service CI](https://github.com/ETEREA-services/UNIFICADO.api.rest/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/ETEREA-services/UNIFICADO.api.rest/actions/workflows/maven.yml)
 
-![Java](https://img.shields.io/badge/Java-24-blue.svg?logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-brightgreen.svg?logo=spring&logoColor=white) ![Maven](https://img.shields.io/badge/build-Maven-red.svg?logo=apache-maven&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-blue.svg?logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-blue.svg?logo=docker&logoColor=white)
+![Java](https://img.shields.io/badge/Java-25-blue.svg?logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.1-brightgreen.svg?logo=spring&logoColor=white) ![Maven](https://img.shields.io/badge/build-Maven-red.svg?logo=apache-maven&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-blue.svg?logo=mysql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-blue.svg?logo=docker&logoColor=white)
 
-**Version:** 0.5.1
+**Version:** 1.0.0
 
 ## Descripción General
 
@@ -12,8 +12,8 @@
 
 ## Tecnologías Involucradas
 
-- **Java:** 24
-- **Framework:** Spring Boot 3.5.3
+- **Java:** 25
+- **Framework:** Spring Boot 4.0.1
 - **Base de Datos:** MySQL
 - **Build Tool:** Maven
 - **API Documentation:** SpringDoc OpenAPI (Swagger)

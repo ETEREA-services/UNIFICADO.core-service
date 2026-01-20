@@ -72,6 +72,14 @@ public class GeneraComprasService {
                             + "\r\n");
                     continue;
                 }
+                if (proveedorMovimiento.getComprobante().getComprobanteAfipId() == 0) {
+                    log.debug("\n\nComprobante Afip no existe\n\n");
+                    outErroresCompras.write("ERROR: Negocio " + negocio.getNombre() + " - Comprobante "
+                            + proveedorMovimiento.getComprobante().getDescripcion() + " ("
+                            + proveedorMovimiento.getComprobante().getComprobanteId() + ") SIN Tipo AFIP Asociado!!"
+                            + "\r\n");
+                    continue;
+                }
 
                 var proveedor = proveedorMovimiento.getProveedor();
 

@@ -1,16 +1,19 @@
 package unificado.core.service.extern.negocio.core.proveedormovimiento.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+
 import unificado.core.service.extern.negocio.core.common.domain.NegocioCoreComprobante;
 import unificado.core.service.extern.negocio.core.common.domain.NegocioCoreNegocio;
 import unificado.core.service.util.Jsonifier;
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NegocioCoreProveedorMovimiento {
 
     private Long proveedorMovimientoId;
@@ -18,9 +21,9 @@ public class NegocioCoreProveedorMovimiento {
     private Integer negocioId;
     private Long proveedorId;
     private Integer comprobanteId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX", timezone = "UTC")
     private OffsetDateTime fechaComprobante;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX", timezone = "UTC")
     private OffsetDateTime fechaVencimiento;
     @Builder.Default
     private Integer prefijo = 0;
@@ -50,7 +53,7 @@ public class NegocioCoreProveedorMovimiento {
     private BigDecimal gastosNoGravados = BigDecimal.ZERO;
     @Builder.Default
     private BigDecimal ajustes = BigDecimal.ZERO;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX", timezone = "UTC")
     private OffsetDateTime fechaContable;
     private Integer ordenContable;
     @Builder.Default
@@ -70,7 +73,7 @@ public class NegocioCoreProveedorMovimiento {
     private Byte concursada = 0;
     @Builder.Default
     private BigDecimal importeConcursado = BigDecimal.ZERO;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX", timezone = "UTC")
     private OffsetDateTime fechaContableConcurso;
     private Integer ordenContableConcurso;
     @Builder.Default

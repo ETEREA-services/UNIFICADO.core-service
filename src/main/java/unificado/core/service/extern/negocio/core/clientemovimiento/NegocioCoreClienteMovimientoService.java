@@ -10,7 +10,6 @@ import reactor.core.publisher.Mono;
 import unificado.core.service.extern.negocio.core.clientemovimiento.domain.NegocioCoreClienteMovimiento;
 import unificado.core.service.negocio.exception.NegocioException;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 

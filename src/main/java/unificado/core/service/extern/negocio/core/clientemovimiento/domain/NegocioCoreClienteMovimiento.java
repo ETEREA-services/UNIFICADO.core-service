@@ -1,16 +1,18 @@
 package unificado.core.service.extern.negocio.core.clientemovimiento.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import unificado.core.service.extern.negocio.core.common.domain.NegocioCoreComprobante;
 import unificado.core.service.util.Jsonifier;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NegocioCoreClienteMovimiento {
 
     private Long clienteMovimientoId;
