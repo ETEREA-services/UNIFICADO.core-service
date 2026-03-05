@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.1</version>
+		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.termascacheuta</groupId>
 	<artifactId>core.unificado</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>unificado.core-service</name>
 	<description>Unificado</description>
 	<properties>
@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>9.5.0</version>
+			<version>9.6.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>

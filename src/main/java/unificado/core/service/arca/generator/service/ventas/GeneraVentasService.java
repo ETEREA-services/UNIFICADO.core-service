@@ -133,9 +133,9 @@ public class GeneraVentasService {
                 }
 
                 // caso que no haya nada en el número de documento
-                if (numeroDocumento.isEmpty() || numeroDocumento.equals("0")) {
-                    tipoDocumento = 99;
-                    numeroDocumento = "0";
+                if (numeroDocumento.isEmpty() || Long.parseLong(numeroDocumento) == 0) {
+                    tipoDocumento = 96;
+                    numeroDocumento = "99";
                 }
 
                 Long numeroComprobante = clienteMovimiento.getNumeroComprobante();
@@ -169,6 +169,11 @@ public class GeneraVentasService {
                 }
 
                 // Build the line for comprobante
+                var nombre = Tool.replaceSymbols(cliente.getRazonSocial());
+                nombre = nombre.replaceAll("[^A-Za-z]", "");
+                if (nombre.isEmpty()) {
+                    nombre = "NN";
+                }
                 StringBuilder lineaComprobante = new StringBuilder();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
                 lineaComprobante.append(clienteMovimiento.getFechaComprobante().format(formatter)); // Campo 1
@@ -178,7 +183,7 @@ public class GeneraVentasService {
                 lineaComprobante.append(String.format("%020d", numeroComprobante)); // Campo 5
                 lineaComprobante.append(String.format("%02d", tipoDocumento)); // Campo 6
                 lineaComprobante.append(String.format("%20s", numeroDocumento).replace(' ', '0')); // Campo 7
-                lineaComprobante.append(String.format("%-30s", Tool.replaceSymbols(cliente.getRazonSocial())), 0, 30); // Campo 8
+                lineaComprobante.append(String.format("%-30s", nombre), 0, 30); // Campo 8
                 lineaComprobante.append(String.format("%015d", comprobanteImporte.abs().multiply(BigDecimal.valueOf(100)).longValue())); // Campo 9
                 lineaComprobante.append("000000000000000"); // Campo 10
                 lineaComprobante.append("000000000000000"); // Campo 11

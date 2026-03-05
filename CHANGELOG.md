@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-03-05
+
+### Changed
+- refactor: Updated Spring Boot to 4.0.2 (patch update)
+
+### Fixed
+- fix: Improved document number handling in GeneraVentasService - changed tipoDocumento from 99 to 96 and numeroDocumento from "0" to "99" when document is empty or zero
+- fix: Added client name sanitization in GeneraVentasService - removes non-alphabetic characters and defaults to "NN" if empty
+
+### Updated
+- deps: Updated MySQL connector-j to 9.6.0
+
 ## [1.0.0] - 2026-01-20
 
 ### Added
