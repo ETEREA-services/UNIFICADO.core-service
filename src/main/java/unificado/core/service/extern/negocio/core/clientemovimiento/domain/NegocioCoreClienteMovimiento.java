@@ -21,12 +21,12 @@ public class NegocioCoreClienteMovimiento {
     private Integer puntoVenta = 0;
     @Builder.Default
     private Long numeroComprobante = 0L;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXX", timezone = "UTC")
     private OffsetDateTime fechaComprobante;
     @Builder.Default
     private Long clienteId = 0L;
     private Integer legajoId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXX", timezone = "UTC")
     private OffsetDateTime fechaVencimiento;
     @Builder.Default
     private Integer negocioId = 0;
@@ -46,7 +46,7 @@ public class NegocioCoreClienteMovimiento {
     private BigDecimal montoIvaRni = BigDecimal.ZERO;
     @Builder.Default
     private BigDecimal reintegroTurista = BigDecimal.ZERO;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXX", timezone = "UTC")
     private OffsetDateTime fechaContable;
     @Builder.Default
     private Integer ordenContable = 0;
