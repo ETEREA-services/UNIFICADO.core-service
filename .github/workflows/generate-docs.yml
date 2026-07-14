@@ -2,8 +2,6 @@ name: Generate Documentation
 
 on:
   pull_request:
-    branches:
-      - main
     types: [opened, synchronize, reopened]
   push:
     branches: [main]
@@ -20,14 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 24
-        uses: actions/setup-java@v4
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
         with:
-          java-version: '24'
+          java-version: '25'
           distribution: 'temurin'
           cache: maven
 
@@ -79,6 +77,7 @@ jobs:
               <div id="component-diagram" class="section"></div>
               <div id="erd-unificado" class="section"></div>
               <div id="balance-sequence-diagram" class="section"></div>
+              <div id="generation-sequence-diagram" class="section"></div>
               
               <div id="dependencies" class="section">
                   <h2>🌳 Grafo de Dependencias</h2>
@@ -133,7 +132,8 @@ jobs:
                   const diagramConfigs = [
                       { id: 'component-diagram', path: 'diagrams/mermaid/component-diagram.mmd', title: '🏛️ Diagrama de Componentes' },
                       { id: 'erd-unificado', path: 'diagrams/mermaid/erd-unificado.mmd', title: '🌐 Diagrama de Entidad-Relación' },
-                      { id: 'balance-sequence-diagram', path: 'diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' }
+                      { id: 'balance-sequence-diagram', path: 'diagrams/mermaid/balance-sequence-diagram.mmd', title: '🔄 Diagrama de Secuencia: Cálculo de Balance' },
+                      { id: 'generation-sequence-diagram', path: 'diagrams/mermaid/generation-sequence-diagram.mmd', title: '📊 Diagrama de Secuencia: Generación de Compras' }
                   ];
 
                   // Insert titles and mermaid divs first
@@ -267,26 +267,10 @@ jobs:
             git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git master
           fi
 
-      - name: Debug - List Mermaid files
-        run: |
-          echo "Archivos Mermaid en docs/diagrams/mermaid/:"
-          ls -l docs/diagrams/mermaid/ || echo "No existe docs/diagrams/mermaid/"
-
-      - name: Prepare artifact for deployment
-        run: |
-          # Garantizar que los archivos Mermaid estén en docs/diagrams/mermaid/
-          mkdir -p docs/diagrams/mermaid
-          if [ -d diagrams/mermaid ]; then
-            cp -v diagrams/mermaid/*.mmd docs/diagrams/mermaid/ 2>/dev/null || true
-          fi
-          echo "Archivos Mermaid finales en docs/diagrams/mermaid/:"
-          ls -l docs/diagrams/mermaid/ || echo "No existe docs/diagrams/mermaid/"
-          mkdir -p _site
-          cp -r docs/* _site/
       - name: Upload artifacts
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: _site
+          path: docs
 
   deploy-pages:
     needs: generate-docs
@@ -301,4 +285,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
+
