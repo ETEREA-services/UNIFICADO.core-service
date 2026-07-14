@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-07-14
+
+### Changed
+- deps: Updated Spring Boot parent from 4.0.2 to 4.1.0 (minor update)
+- deps: Updated MySQL connector-j from 9.6.0 to 9.7.0
+- deps: Updated springdoc-openapi-starter-webmvc-ui from 3.0.1 to 3.0.3
+- deps: Updated mockwebserver from 5.3.2 to 5.4.0
+- ci: Updated GitHub Actions to latest versions (checkout@v6, setup-java@v5, cache@v5, docker actions@v4-v7, upload-pages-artifact@v4, deploy-pages@v5)
+- ci: Simplified docs pipeline by removing intermediate _site copy step
+- ci: Removed branches filter on pull_request trigger for docs workflow
+
+### Fixed
+- fix: Corrected JsonFormat timezone pattern from `ssZ` to `ssXX` in CuentaMovimientoUnificado, NegocioCoreCliente, and NegocioCoreClienteMovimiento for proper ISO 8601 timezone offset handling
+
+### Documentation
+- docs: Added generation-sequence-diagram to the documentation pipeline (was missing from diagramConfigs)
+
 ## [1.0.1] - 2026-03-05
 
 ### Changed
